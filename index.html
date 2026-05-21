@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mood Music Website</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      overflow:hidden;
+      background:linear-gradient(135deg,#1db954,#191414);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+      color:white;
+      position:relative;
+    }
+
+    /* BACKGROUND ICONS */
+
+    .bg-icons{
+      position:absolute;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
+      z-index:0;
+      overflow:hidden;
+    }
+
+    .icon{
+      position:absolute;
+      font-size:70px;
+      opacity:0.08;
+      animation:float 10s infinite ease-in-out;
+    }
+
+    .icon:nth-child(1){
+      top:10%;
+      left:10%;
+    }
+
+    .icon:nth-child(2){
+      top:20%;
+      left:75%;
+    }
+
+    .icon:nth-child(3){
+      top:70%;
+      left:20%;
+    }
+
+    .icon:nth-child(4){
+      top:75%;
+      left:80%;
+    }
+
+    .icon:nth-child(5){
+      top:40%;
+      left:50%;
+    }
+
+    .icon:nth-child(6){
+      top:5%;
+      left:45%;
+    }
+
+    @keyframes float{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-25px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+
+    }
+
+    .container{
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:800px;
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(10px);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    #loginPage{
+      display:block;
+    }
+
+    #musicPage{
+      display:none;
+    }
+
+    .login-box{
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+
+    input{
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
+      outline:none;
+    }
+
+    button{
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#1db954;
+      color:white;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#18a74a;
+      transform:scale(1.03);
+    }
+
+    .logout-btn{
+      background:red;
+      margin-bottom:20px;
+    }
+
+    .logout-btn:hover{
+      background:darkred;
+    }
+
+    .welcome{
+      text-align:center;
+      margin-bottom:20px;
+      font-size:18px;
+    }
+
+    .mood-buttons{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:15px;
+      margin-top:20px;
+      margin-bottom:30px;
+    }
+
+    .songs{
+      margin-top:20px;
+    }
+
+    .song-card{
+      background:rgba(255,255,255,0.15);
+      padding:15px;
+      border-radius:12px;
+      margin-bottom:15px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .song-info h3{
+      margin-bottom:5px;
+    }
+
+    .playlist-link{
+      text-decoration:none;
+      color:#1db954;
+      background:white;
+      padding:8px 14px;
+      border-radius:8px;
+      font-weight:bold;
+    }
+
+    .playlist-link:hover{
+      background:#eee;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND ICONS -->
+
+  <div class="bg-icons">
+
+    <div class="icon">🎵</div>
+    <div class="icon">🎶</div>
+    <div class="icon">🎧</div>
+    <div class="icon">📻</div>
+    <div class="icon">▶</div>
+    <div class="icon">🎼</div>
+
+  </div>
+
+  <div class="container">
+
+    <!-- LOGIN PAGE -->
+
+    <div id="loginPage">
+
+      <h1>🎵 Login To Music World</h1>
+
+      <div class="login-box">
+
+        <input type="text" id="username" placeholder="Enter Username">
+
+        <input type="password" id="password" placeholder="Enter Password">
+
+        <button onclick="login()">Login</button>
+
+      </div>
+
+    </div>
+
+    <!-- MUSIC PAGE -->
+
+    <div id="musicPage">
+
+      <button class="logout-btn" onclick="logout()">Logout</button>
+
+      <h1>🎶 Mood-Based Music Recommender</h1>
+
+      <div class="welcome" id="welcomeText"></div>
+
+      <div class="mood-buttons">
+
+        <button onclick="showSongs('happy')">😊 Happy</button>
+
+        <button onclick="showSongs('sad')">😢 Sad</button>
+
+        <button onclick="showSongs('focused')">🧠 Focused</button>
+
+        <button onclick="showSongs('romantic')">❤️ Romantic</button>
+
+        <button onclick="showSongs('party')">🥳 Party</button>
+
+        <button onclick="showSongs('chill')">😌 Chill</button>
+
+      </div>
+
+      <div class="songs" id="songsContainer">
+
+        <h2>Select a mood to get music recommendations 🎵</h2>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const musicData = {
+
+      happy: [
+        {
+          title: "Happy",
+          artist: "Pharrell Williams",
+          playlist: "https://open.spotify.com"
+        },
+        {
+          title: "Can't Stop The Feeling",
+          artist: "Justin Timberlake",
+          playlist: "https://open.spotify.com"
+        }
+      ],
+
+      sad: [
+        {
+          title: "Sad Songs",
+          artist: "Arijit Singh",
+          playlist: "https://open.spotify.com"
+        }
+      ],
+
+      focused: [
+        {
+          title: "Lo-fi Beats",
+          artist: "Various Artists",
+          playlist: "https://open.spotify.com"
+        }
+      ],
+
+      romantic: [
+        {
+          title: "Perfect",
+          artist: "Ed Sheeran",
+          playlist: "https://open.spotify.com"
+        }
+      ],
+
+      party: [
+        {
+          title: "Uptown Funk",
+          artist: "Bruno Mars",
+          playlist: "https://open.spotify.com"
+        }
+      ],
+
+      chill: [
+        {
+          title: "Sunflower",
+          artist: "Post Malone",
+          playlist: "https://open.spotify.com"
+        }
+      ]
+
+    };
+
+
+    function login(){
+
+      const username =
+      document.getElementById("username").value;
+
+      const password =
+      document.getElementById("password").value;
+
+      if(username === "" || password === ""){
+
+        alert("Please enter username and password");
+
+        return;
+      }
+
+      localStorage.setItem("musicUser", username);
+
+      document.getElementById("loginPage").style.display = "none";
+
+      document.getElementById("musicPage").style.display = "block";
+
+      document.getElementById("welcomeText").innerHTML =
+      `Welcome, <b>${username}</b> 👋`;
+
+    }
+
+
+    function logout(){
+
+      localStorage.removeItem("musicUser");
+
+      document.getElementById("loginPage").style.display = "block";
+
+      document.getElementById("musicPage").style.display = "none";
+
+    }
+
+
+    window.onload = function(){
+
+      const savedUser =
+      localStorage.getItem("musicUser");
+
+      if(savedUser){
+
+        document.getElementById("loginPage").style.display = "none";
+
+        document.getElementById("musicPage").style.display = "block";
+
+        document.getElementById("welcomeText").innerHTML =
+        `Welcome back, <b>${savedUser}</b> 👋`;
+
+      }
+
+    }
+
+
+    function showSongs(mood){
+
+      const container =
+      document.getElementById("songsContainer");
+
+      const songs = musicData[mood];
+
+      let html =
+      `<h2 style="margin-bottom:20px;">
+      Recommended Songs 🎶
+      </h2>`;
+
+      songs.forEach(song => {
+
+        html += `
+
+        <div class="song-card">
+
+          <div class="song-info">
+
+            <h3>${song.title}</h3>
+
+            <p>${song.artist}</p>
+
+          </div>
+
+          <a class="playlist-link"
+          href="${song.playlist}"
+          target="_blank">
+
+          Play ▶
+
+          </a>
+
+        </div>
+
+        `;
+
+      });
+
+      container.innerHTML = html;
+
+    }
+
+  </script>
+
+</body>
+</html>
